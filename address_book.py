@@ -99,14 +99,11 @@ class AddressBook(UserDict):
     
     def get_upcoming_birthdays(self, days = 7):
         upcoming_birthdays = []
-        print("START")
         today = date.today()
 
         for contact in self.data.values():
-            print(contact)
             if not contact.birthday:
                 continue
-            print(contact.birthday.value)
             birthday_this_year = contact.birthday.value.replace(year=today.year)
             if (birthday_this_year - today).days<-350:
                 birthday_this_year = contact.birthday.value.replace(year=today.year+1)
