@@ -26,9 +26,10 @@ class Birthday(Field):
             self.value = datetime.strptime(value, "%d.%m.%Y").date()
         except ValueError:
             raise ValueError("Invalid date format. Use DD.MM.YYYY")
+        self.value = value
     
-    def __str__(self):
-        return str(self.value)
+    def date(self):
+        return datetime.strptime(self.value, "%d.%m.%Y").date()
 
 class Record:
     def __init__(self, name):
@@ -104,9 +105,9 @@ class AddressBook(UserDict):
         for contact in self.data.values():
             if not contact.birthday:
                 continue
-            birthday_this_year = contact.birthday.value.replace(year=today.year)
+            birthday_this_year = contact.birthday.date().replace(year=today.year)
             if (birthday_this_year - today).days<-350:
-                birthday_this_year = contact.birthday.value.replace(year=today.year+1)
+                birthday_this_year = contact.birthday.date().replace(year=today.year+1)
             birthday_this_year = upcoming_birthday.adjust_for_weekend(birthday_this_year)
             
             if 0 <= (birthday_this_year - today).days <= days:
